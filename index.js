@@ -104,6 +104,10 @@ client.on('message', msg => {
     }
   }
 
+ if (msg.content === 'Marlo') {     
+    msg.reply('Bonjour Maitre! :100:');   
+  }
+
   if (msg.content === 'cat') {
     // Utilise http://random.cat pour afficher une image de chat...
     getJSON('http://aws.random.cat/meow', function(error, response){
@@ -129,6 +133,8 @@ client.on('guildMemberAdd', member => {
   channel.send(`Bienvenue ${member}!`);
   channel.send(abo());
 });
+
+
 
 // Connect le client.
 client.login(BoToken);
