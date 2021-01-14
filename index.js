@@ -24,11 +24,11 @@ const client = new Client();
 const abo = () => {
   return new RichEmbed()
     // Le titre de l'encart
-    .setTitle(':arrow_down: Abonne toi à T2006 :arrow_down:')
+    .setTitle(':arrow_down: Abonne toi à rien du tout :arrow_down:')
     // La couleur de l'encart
     .setColor(0xff0000)
     // Le contenu de l'encart
-    .setDescription('https://www.youtube.com/channel/UCWC87vcR72VDYM7AGBzuBDQ');
+    .setDescription('https://www.rien_du_tout');
 }
 
 async function yt(msg){
@@ -58,7 +58,7 @@ client.on('message', msg => {
   }
 
   if (msg.content === '^^salut') {    // Si le message dit "^salut"
-    msg.reply('salut salut');
+    msg.reply('Au revoir');
   }
 
   if (msg.content === 'Garis') {    // Si le message dit "^salut"
@@ -69,17 +69,22 @@ client.on('message', msg => {
     msg.reply("http://thecatapi.com/api/images/get?format=src&type=gif&timestamp="+ts);
   }
 
+  if (msg.content === 'ouaf ouaf') {    // Si le message dit "^salut"
+    var ts = new Date().getTime();
+    msg.reply("https://media0.giphy.com/media/Z9nzfnN09lMUSXoEJN/giphy.webp?cid=ecf05e474allsl8noh8tnk3mx2nzvdmp56wakk2ui3j9exjj&rid=giphy.webp"+ts);
+  }
+
   if (msg.content === 'Marvel') {    // Si le message dit "^salut"
     msg.reply('C"est un oiseau, c"est un avion, et je me souvien plus.');
   }
   if (msg.content === '1234') {       // un test si le msg dit "1234"
     const embed = new RichEmbed()
       // Set the title of the field
-      .setTitle('A slick little embed')
+      .setTitle('Chiffres')
       // Set the color of the embed
-      .setColor(0xFF0000)
+      .setColor(0xF056B)
       // Set the main content of the embed
-      .setDescription('Hello, this is a slick embed!');
+      .setDescription('5678');
     // Send the embed to the same channel as the message
     msg.channel.send(embed);
   }
