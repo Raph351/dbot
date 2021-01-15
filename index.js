@@ -184,30 +184,18 @@ client.on('message', msg => {
     msg.react('😄');
     //msg.guild.roles.forEach(role => console.log(role.name, role.id))
 
-    const filter = (reaction, user) => {
-     return reaction = '😄';
-};
+    let role = msg.member.guild.roles.cache.find(role => role.name === 'test');
 
-const collector = msg.createReactionCollector(filter, { time: 60000 });
-let role = msg.member.guild.roles.cache.find(role => role.name === 'test');
-const Filter = (reaction, user) => user.id == reaction.message.member.id;
+    client.on("messageReactionAdd", (reaction, user) => {
+      const mesg = reaction.message;
+      if(!user || user.bot || !reaction.message.channel.guild) {
+        return;
+      } else if (mesg.id == msg.id && reaction.emoji.name == "😄") {
+        if (msg.guild.member(user).roles.cache.has(role.id)) {return msg.channel.send("You already have the role.")};
 
-msg.awaitReactions(Filter, {max: 1, time: 30000, errors: ["time"]}).then(collected => {
-        // Getting the first reaction in the collection.
-        const reaction = collected.first();
-
-        // Creating a switch statement for reaction.emoji.name.
-        switch (reaction.emoji.name) {
-            case "😄":
-                // Checking if the member already has the role.
-                if (reaction.message.member.roles.cache.has(role.id)) {return msg.channel.send("You already have the role.")};
-                // Adding the role.
-                reaction.message.member.roles.add(role).then(msg.channel.send("Role added!"));
-                // Breaking the switch statement to make sure no other cases are executed.
-                //console.log(reaction.message.member)
-                break
-        }
-    })
+        msg.guild.member(user).roles.add(role).then(msg.channel.send("Role added!"));
+      }
+    });
   }
 
   if (msg.content === 'cat') {
