@@ -33,7 +33,7 @@ const abo = () => {
 
 async function yt(msg){
   let feed = await parser.parseURL('https://www.youtube.com/feeds/videos.xml?channel_id=UCN25q81_zmzVMMRGxMvEf4w');
-  console.log(feed.title, feed.feedUrl, feed.link);
+  //console.log(feed.title, feed.feedUrl, feed.link);
   for (i=0; i<3; i++) {
     console.log(feed.items[i])
     msg.channel.send(feed.items[i].title + " " + feed.items[i].link)
@@ -43,7 +43,74 @@ async function yt(msg){
 }
 // Surveille le status
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  //console.log(`Logged in as ${client.user.tag}!`);
+});
+
+const Test = () => {
+  let guildTest = client.guilds.cache.find(ch => ch.name === 'test');
+  //console.log(guildTest)
+}
+
+
+
+
+// client.on('messageReactionAdd', async (reaction, user, message) => {
+//   console.log("--------------------------------")
+//   console.log("On a eu une messageReactionAdds")
+// console.log("reaction", reaction)
+// console.log("user", user)
+// console.log("message", message)
+//   let role = reaction.message.guild.roles.find(r => r.name === "test");
+//
+//   let member = reaction.message.guild.members.first();
+//   console.log("member", member)
+//
+//   member.addRole(role).catch(console.error);
+//   //user.addRole(role).catch(console.error);
+//   //reaction.members.guild.roles.add(role);
+//
+// //  reaction.message.guild.members.cache.get(message.author.id).roles.add(role);
+// // user.id.roles.add(role)
+// user.id.addRole(role).catch(console.error);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// //   console.log(reaction.message.guild)
+// //   let guild = reaction.message.guild;
+// //
+// //   guild.roles.forEach(role => console.log(role.name, role.id))
+// //   const guildTest = guild.roles.find(ch => ch.name === 'test');
+// // console.log(guildTest);
+// // user.addRole(guildTest).catch(console.error);
+//
+//
+//
+//   //const channel = user.guild.channels.find(ch => ch.name === 'test');
+//   //channel.addMember(user)
+//
+//   // console.log("--------------------------------")
+//   // console.log(reaction)
+//   // console.log("--------------------------------")
+//   // console.log(user)
+//   // console.log("--------------------------------")
+// });
+
+client.on('messageReactionRemove', async (reaction, user) => {
+  console.log("--------------------------------")
+  console.log("On a supprimé une messageReactionAdds")
+  //const channel = user.guild.channels.find(ch => ch.name === 'test');
+  //channel.RemoveMember(user)
+//  user.removeRole(channel.id);
+
 });
 
 // Surveille les messages
@@ -109,8 +176,38 @@ client.on('message', msg => {
     }
   }
 
- if (msg.content === 'Marlo') {     
-    msg.reply('Bonjour Maitre! :100:');   
+  if (msg.content === 'Marlo') {
+    msg.reply('Bonjour Maitre! :100:');
+  }
+
+  if (msg.content === 'react') {
+    msg.react('😄');
+    //msg.guild.roles.forEach(role => console.log(role.name, role.id))
+
+    const filter = (reaction, user) => {
+     return reaction = '😄';
+};
+
+const collector = msg.createReactionCollector(filter, { time: 60000 });
+let role = msg.member.guild.roles.cache.find(role => role.name === 'test');
+const Filter = (reaction, user) => user.id == reaction.message.member.id;
+
+msg.awaitReactions(Filter, {max: 1, time: 30000, errors: ["time"]}).then(collected => {
+        // Getting the first reaction in the collection.
+        const reaction = collected.first();
+
+        // Creating a switch statement for reaction.emoji.name.
+        switch (reaction.emoji.name) {
+            case "😄":
+                // Checking if the member already has the role.
+                if (reaction.message.member.roles.cache.has(role.id)) {return msg.channel.send("You already have the role.")};
+                // Adding the role.
+                reaction.message.member.roles.add(role).then(msg.channel.send("Role added!"));
+                // Breaking the switch statement to make sure no other cases are executed.
+                //console.log(reaction.message.member)
+                break
+        }
+    })
   }
 
   if (msg.content === 'cat') {
